@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>....</title>
+  <style>
+    :root {
+      --main-color: #111;
+      --text-color: #fff;
+      --accent-color: #00bcd4;
+      --card-bg: #1e1e1e;
+      --light-bg: #f9f9f9;
+      --light-text: #222;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background-color: var(--main-color);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    header {
+      background: var(--card-bg);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+      color: var(--accent-color);
+    }
+
+    .toggle-mode {
+      cursor: pointer;
+      background: var(--accent-color);
+      color: #fff;
+      padding: 6px 14px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .whatsapp-link {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background: #25d366;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      z-index: 998;
+    }
+
+    .video-section {
+      padding: 60px 20px;
+    }
+
+    .video-card {
+      background: var(--card-bg);
+      padding: 20px;
+      margin-bottom: 80px;
+      border-radius: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+      max-width: 800px;
+      margin-inline: auto;
+    }
+
+    .video-card h2 {
+      margin-top: 0;
+      font-size: 22px;
+      color: var(--accent-color);
+    }
+
+    iframe, video {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+
+    body.light-mode {
+      --main-color: #ffffff;
+      --text-color: #222;
+      --card-bg: #eeeeee;
+    }
+
+    .scroll-to-top {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background-color: var(--accent-color);
+      color: white;
+      font-size: 22px;
+      padding: 12px 16px;
+      border-radius: 50%;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      display: none;
+      z-index: 999;
+      transition: background 0.3s;
+    }
+
+    .scroll-to-top:hover {
+      background-color: #0097a7;
+    }
+
+    .search-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #videoSearch {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      width: 60%;
+      max-width: 300px;
+      display: none;
+      margin-top: 10px;
+    }
+
+    .search-btn {
+      padding: 10px 18px;
+      font-size: 18px;
+      border-radius: 10px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #protectedDownload {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    #passwordInput {
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>....</h1>
+    <button class="toggle-mode" onclick="toggleMode()">تبديل الوضع</button>
+  </header>
+
+  <div class="search-container">
+    <button onclick="toggleSearch()" class="search-btn">🔍 بحث</button>
+    <input type="text" id="videoSearch" placeholder="اكتب اسم الدرس..." onkeyup="searchVideo()" />
+  </div>
+
+  <div class="video-section">
+    <div class="video-card" id="lesson1">
+      <h2>الدرس 1 - فيديو من يوتيوب</h2>
+      <iframe src="https://www.youtube.com/embed/WHvyo5QIkFM" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="video-card" id="lesson2">
+      <h2>الدرس 2 - فيديو MP4 تجريبي</h2>
+      <video controls>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+        متصفحك لا يدعم تشغيل الفيديو.
+      </video>
+      <div id="protectedDownload">
+        <input type="password" id="passwordInput" placeholder="ادخل الرمز" />
+        <button onclick="checkPassword()">تحميل الفيديو</button>
+        <div id="downloadLink" style="margin-top: 10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <a href="AL wats lw 3ezo" class="whatsapp-link" target="_blank">الدعم</a>
+  <a href="#" class="scroll-to-top" title="العودة لأعلى">⬆</a>
+
+  <script>
+    function toggleMode() {
+      document.body.classList.toggle('light-mode');
+    }
+
+    const allVideos = document.querySelectorAll("video");
+    document.addEventListener("play", function(e){
+      for(let vid of allVideos) {
+        if(vid !== e.target){ vid.pause(); }
+      }
+    }, true);
+
+    const scrollBtn = document.querySelector(".scroll-to-top");
+    window.addEventListener("scroll", () => {
+      scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+
+    function toggleSearch() {
+      const searchInput = document.getElementById('videoSearch');
+      searchInput.style.display = searchInput.style.display === 'none' ? 'inline-block' : 'none';
+      searchInput.focus();
+    }
+
+    function searchVideo() {
+      const query = document.getElementById('videoSearch').value.toLowerCase();
+      const videos = document.querySelectorAll('.video-card');
+      videos.forEach(card => {
+        const title = card.querySelector('h2').textContent.toLowerCase();
+        card.style.display = title.includes(query) ? 'block' : 'none';
+      });
+    }
+
+    // يظهر الحماية تحت الفيديو
+    document.getElementById("lesson2").addEventListener("mouseenter", function() {
+      document.getElementById("protectedDownload").style.display = "block";
+    });
+
+    function checkPassword() {
+      const input = document.getElementById("passwordInput").value;
+      const container = document.getElementById("downloadLink");
+      if (input === "...") {
+        container.innerHTML = '<a href="https://www.w3schools.com/html/mov_bbb.mp4" download>اضغط هنا لتح
