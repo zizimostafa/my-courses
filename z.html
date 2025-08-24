@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>منصة كورسات</title>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #111;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      width: 350px;
+      text-align: center;
+    }
+    h2 {
+      color: #00bcd4;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: none;
+    }
+    button {
+      width: 95%;
+      padding: 10px;
+      margin: 10px 0;
+      background: #00bcd4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0097a7;
+    }
+    .toggle-link {
+      color: #00bcd4;
+      cursor: pointer;
+      display: block;
+      margin-top: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+    .courses {
+      display: none;
+    }
+    .course-card {
+      background: #222;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: right;
+    }
+    .course-card h3 {
+      margin: 0;
+      color: #00bcd4;
+    }
+    iframe, video {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="authContainer">
+    <h2>تسجيل دخول</h2>
+    <input type="text" id="loginEmail" placeholder="البريد الإلكتروني">
+    <input type="password" id="loginPassword" placeholder="كلمة السر">
+    <button onclick="login()">دخول</button>
+    <span class="toggle-link" onclick="showRegister()">إنشاء حساب جديد</span>
+  </div>
+
+  <div class="container hidden" id="registerContainer">
+    <h2>تسجيل حساب</h2>
+    <input type="text" id="regEmail" placeholder="البريد الإلكتروني">
+    <input type="password" id="regPassword" placeholder="كلمة السر">
+    <button onclick="register()">تسجيل</button>
+    <span class="toggle-link" onclick="showLogin()">لديك حساب بالفعل؟ دخول</span>
+  </div>
+
+  <div class="container hidden courses" id="coursesContainer">
+    <h2>مرحبا بك في المنصة 🎓</h2>
+
+    <div class="course-card">
+      <h3>الدرس 1 - فيديو يوتيوب</h3>
+      <iframe src="https://www.youtube.com/embed/WHvyo5QIkFM" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="course-card">
+      <h3>الدرس 2 - فيديو MP4</h3>
+      <video controls>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        متصفحك لا يدعم تشغيل الفيديو.
+      </video>
+    </div>
+    <button onclick="logout()">تسجيل خروج</button>
+  </div>
+
+<script>
+  function showRegister(){
+    document.getElementById("authContainer").classList.add("hidden");
+    document.getElementById("registerContainer").classList.remove("hidden");
+  }
+
+  function showLogin(){
+    document.getElementById("registerContainer").classList.add("hidden");
+    document.getElementById("authContainer").classList.remove("hidden");
+  }
+
+  function register(){
+    const email = document.getElementById("regEmail").value;
+    const password = document.getElementById("regPassword").value;
+
+    if(email && password){
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userPassword", password);
+      alert("تم التسجيل بنجاح! يمكنك تسجيل الدخول الآن.");
+      showLogin();
+    } else {
+      alert("من فضلك املأ كل الحقول.");
+    }
+  }
+
+  function login(){
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    const storedEmail = localStorage.getItem("userEmail");
+    const storedPassword = localStorage.getItem("userPassword");
+
+    if(email === storedEmail && password === storedPassword){
+      document.getElementById("authContainer").classList.add("hidden");
+      document.getElementById("coursesContainer").classList.remove("hidden");
+    } else {
+      alert("بيانات غير صحيحة!");
+    }
+  }
+
+  function logout(){
+    document.getElementById("coursesContainer").classList.add("hidden");
+    document.getElementById("authContainer").classList.remove("hidden");
+  }
+</script>
+
+</body>
+</html>
